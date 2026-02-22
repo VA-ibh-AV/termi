@@ -4,10 +4,11 @@ Copyright © 2026 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"os"
+	"time"
 
 	"github.com/VA-ibh-AV/termi/internal/ai"
+	"github.com/VA-ibh-AV/termi/internal/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -24,13 +25,15 @@ var rootCmd = &cobra.Command{
 		}
 
 		prompt := args[0]
+
+		start := time.Now()
 		resp, err := ai.Generate(cmd.Context(), prompt)
 
 		if err != nil {
 			return err
 		}
 
-		fmt.Println(resp.Command)
+		ui.PrintAIResponse(resp.Command, time.Since(start))
 
 		return nil
 	},
