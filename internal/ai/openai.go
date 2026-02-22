@@ -5,6 +5,7 @@ import (
 	"errors"
 	"os"
 
+	"github.com/VA-ibh-AV/termi/utils"
 	"github.com/openai/openai-go/v3"
 	"github.com/openai/openai-go/v3/option"
 	"github.com/openai/openai-go/v3/responses"
@@ -47,10 +48,17 @@ func Generate(ctx context.Context, prompt string) (*CommandResponse, error) {
 		option.WithAPIKey(os.Getenv("OPENAI_KEY")), // defaults to
 	)
 
+	hostInfo := utils.GetHostInfo()
+
 	resp, err := client.Responses.New(ctx, responses.ResponseNewParams{
 		Prompt: responses.ResponsePromptParam{
 			ID:      "pmpt_699a98bd8340819384b2569ab9895ee9075cdf724abc82da",
-			Version: openai.String("7"),
+			Version: openai.String("9"),
+			Variables: map[string]responses.ResponsePromptVariableUnionParam{
+				"os":     {OfString: openai.String(hostInfo.Os)},
+				"distro": {OfString: openai.String(hostInfo.Distro)},
+				"arch":   {OfString: openai.String(hostInfo.Arch)},
+			},
 		},
 		Reasoning: shared.ReasoningParam{Effort: openai.ReasoningEffortLow},
 		Input:     responses.ResponseNewParamsInputUnion{OfString: openai.String(prompt)},
