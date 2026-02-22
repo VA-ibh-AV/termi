@@ -64,6 +64,8 @@ func Generate(ctx context.Context, prompt string) (*CommandResponse, error) {
 			),
 			Verbosity: responses.ResponseTextConfigVerbosityLow,
 		},
+		Tools:   []responses.ToolUnionParam{responses.ToolParamOfWebSearch(responses.WebSearchToolTypeWebSearch)},
+		Include: []responses.ResponseIncludable{responses.ResponseIncludableWebSearchCallActionSources},
 	})
 
 	if err != nil {

@@ -26,8 +26,12 @@ var rootCmd = &cobra.Command{
 
 		prompt := args[0]
 
+		stop := ui.StartSpinner(cmd.Context(), "thinking...")
+
 		start := time.Now()
 		resp, err := ai.Generate(cmd.Context(), prompt)
+
+		stop()
 
 		if err != nil {
 			return err
